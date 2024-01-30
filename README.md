@@ -9,13 +9,13 @@ project-name
 ├── pyproject.toml
 ├── README.md
 └── src
-    ├── api_client.py
-    ├── categories.py
-    ├── DTOs.py
-    ├── models.py
-    ├── products.py
-    ├── schemas.py
-    └── settings.py
+├── api_client.py
+├── categories.py
+├── DTOs.py
+├── models.py
+├── products.py
+├── schemas.py
+└── settings.py
 ```
 
 ## Description
@@ -37,7 +37,6 @@ To set up and run the project, follow these steps:
     ```
 
 ## Usage
-
 After installing the project dependencies, you can run the main.py script to start experimenting with the DummyJSON API and testing your hypotheses.
 
 ```bash
@@ -45,7 +44,6 @@ python main.py
 ```
 
 ## Project Structure
-
 - main.py: The main script to be executed for running the project.
 - poetry.lock: File containing exact versions of dependencies managed by Poetry.
 - pyproject.toml: Configuration file for Poetry, specifying project metadata and dependencies.
@@ -62,5 +60,4 @@ python main.py
 Feel free to modify the source code and expand the project based on your experimentation needs.
 
 ## License
-
 This project is licensed under the MIT License - see the LICENSE file for details.
