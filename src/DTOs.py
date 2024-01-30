@@ -1,6 +1,6 @@
-class Product:
-    def __init__(self, id, title, description, price, thumbnail, category):
-        self.id = id
+class ProductDTO:
+    def __init__(self, product_id, title, description, price, thumbnail, category):
+        self.product_id = product_id
         self.title = title
         self.description = description
         self.price = price
@@ -9,7 +9,7 @@ class Product:
 
     def to_dict(self):
         return {
-            "id": self.id,
+            "product_id": self.product_id,
             "title": self.title,
             "description": self.description,
             "price": self.price,
@@ -18,9 +18,11 @@ class Product:
         }
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data: dict):
+        if "id" in data:
+            data["product_id"] = data.pop("id")
         return cls(
-            id=data["id"],
+            product_id=data["product_id"],
             title=data["title"],
             description=data["description"],
             price=data["price"],
@@ -29,9 +31,23 @@ class Product:
         )
 
     def __repr__(self):
-        return f"Product(id={self.id}, title={self.title})"
+        return f"Product(id={self.product_id}, title={self.title})"
 
 
-class Category:
+class CategoryDTO:
     def __init__(self, name):
         self.name = name
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            name=data["name"],
+        )
+
+    def __repr__(self):
+        return f"Category(name={self.name})"
