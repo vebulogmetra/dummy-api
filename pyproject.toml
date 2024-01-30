@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "'"
+version = "0.1.0"
+description = "dummy-products-integration"
+authors = ["Artem <vebulogmetra@yandex.ru>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+httpx = "^0.26.0"
+aiohttp = "^3.9.3"
+python-dotenv = "^1.0.1"
+pydantic = "^2.6.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+isort = "^5.13.2"
+black = "^24.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.isort]
+line_length = 90
+force_grid_wrap = 2
+
+[tool.black]
+line-length = 90
+target-version = ['py310']
+
+[tool.flake8]
+exclude = [".git", ".pytest_cache", "tests", "__pycache__", "env", "venv", ".venv"]
+max-line-length = 90
+max-complexity = 8
+ignore = ["W503"]
