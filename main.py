@@ -1,59 +1,46 @@
 from src.DTOs import ProductDTO, CategoryDTO
 from src.external.products import get_products
 from src.external.categories import get_categories
-from src.storages.manager import DatabaseManager
-from src.storages.crud import insert_category, insert_product
+from src.storages.crud import SqliteCRUD
 from src.utils import initdb
 from typing import Iterable
 from src.settings import (
     INIT_DB,
+    FETCH_CATEGORIES,
     SQLITE_DB_NAME,
-    DB_TYPE_SQLITE,
     DB_CATEGORIES_TABLENAME,
     DB_PRODUCTS_TABLENAME,
 )
 
+db_crud = SqliteCRUD(db_file=SQLITE_DB_NAME)
+
 if INIT_DB:
     initdb()
 
-sqlite_manager = DatabaseManager(db_type=DB_TYPE_SQLITE, database=SQLITE_DB_NAME)
-sqlite_manager.connect()
+if FETCH_CATEGORIES:
+    categories_from_api: Iterable[CategoryDTO] = get_categories()
+
+    for category in categories_from_api:
+        db_crud.insert_entity(table_name=DB_CATEGORIES_TABLENAME, entity_data=category)
 
 
-def get_categories_from_external_api() -> Iterable[CategoryDTO]:
-    categories: Iterable[CategoryDTO] = get_categories()
-    return categories
+products_from_api: Iterable[ProductDTO] = get_products(limit=50, skip=0)
 
 
-def get_products_from_external_api(limit=5, skip=0) -> Iterable[ProductDTO]:
-    products: Iterable[ProductDTO] = get_products(limit=limit, skip=skip)
-    return products
+for product in products_from_api:
+    category_name: str = product.category
+    product.category = None
+    product.category_id = db_crud.get_entity(
+        table_name=DB_CATEGORIES_TABLENAME,
+        entity_field="name",
+        entity_value=category_name,
+    )[0][0]
+    db_crud.insert_entity(table_name=DB_PRODUCTS_TABLENAME, entity_data=product)
 
+products_from_db = db_crud.get_entities(table_name=DB_PRODUCTS_TABLENAME)
 
-def save_to_db(table_name: str, entitys: Iterable[CategoryDTO] | Iterable[ProductDTO]):
-    results = []
-    if table_name == DB_CATEGORIES_TABLENAME:
-        for category in entitys:
-            r = insert_category(db_manager=sqlite_manager, category_data=category)
-            results.append(r)
+db_crud.close_connection()
 
-    elif table_name == DB_PRODUCTS_TABLENAME:
-        for product in entitys:
-            r = insert_product(db_manager=sqlite_manager, product_data=product)
-            results.append(r)
-    return results
-
-
-if __name__ == "__main__":
-    categories = get_categories_from_external_api()
-    products = get_products_from_external_api()
-    print(f"products: {products}")
-    save_res_cats = save_to_db(table_name=DB_CATEGORIES_TABLENAME, entitys=categories)
-    # save_res_prods = save_to_db(table_name=DB_PRODUCTS_TABLENAME, entitys=products)
-
-    print("*" * 30)
-    print(f"RES CATS: {save_res_cats}")
-    # print(f"RES PRODS: {save_res_prods}")
-    print("*" * 30)
-
-    sqlite_manager.close()
+print("*" * 30)
+print(f"DB PRODS: {products_from_db}")
+print("*" * 30)
