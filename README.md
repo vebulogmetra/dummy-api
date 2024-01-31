@@ -3,19 +3,26 @@
 This project is a Python 3.10 application designed for experimenting and testing hypotheses using the open REST API provided by [DummyJSON](https://dummyjson.com). The project structure is organized as follows:
 
 ```
-project-name
+dummy-api
 ├── main.py
 ├── poetry.lock
 ├── pyproject.toml
 ├── README.md
 └── src
-    ├── api_client.py
-    ├── categories.py
     ├── DTOs.py
-    ├── models.py
-    ├── products.py
+    ├── external
+    │   ├── api_client.py
+    │   ├── categories.py
+    │   └── products.py
+    ├── __init__.py
     ├── schemas.py
-    └── settings.py
+    ├── scripts
+    │   ├── create_tables.sql
+    │   └── initdb.sh
+    ├── settings.py
+    ├── storages
+    │   └── crud.py
+    └── utils.py
 ```
 
 ## Description
@@ -52,10 +59,7 @@ python main.py
 - README.md: This file providing an overview of the project and its usage.
 - src/: Directory containing the source code of the project.
     - api_client.py: Module for interacting with the DummyJSON API using an ApiClient class.
-    - categories.py: Module for handling product categories.
     - DTOs.py: Module containing data transfer objects for interacting with the API.
-    - models.py: Module defining data models used in the project.
-    - products.py: Module for managing product-related functionalities.
     - schemas.py: Module containing data validation schemas.
     - settings.py: Module for storing project settings and configurations.
 
