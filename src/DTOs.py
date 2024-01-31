@@ -6,6 +6,7 @@ class ProductDTO:
         self.price = price
         self.thumbnail = thumbnail
         self.category = category
+        self.category_id = None
 
     def to_dict(self):
         return {
@@ -14,7 +15,7 @@ class ProductDTO:
             "description": self.description,
             "price": self.price,
             "thumbnail": self.thumbnail,
-            "category": self.category,
+            "category_id": self.category_id,
         }
 
     @classmethod

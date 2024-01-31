@@ -5,13 +5,11 @@ BASE_DIR = Path(__file__).parent
 SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
 INIT_DB_SCRIPT = "initdb.sh"
 
-DB_TYPE_SQLITE = "sqlite"
-DB_TYPE_POSTGRES = "postgres"
-
 DB_PRODUCTS_TABLENAME = "products"
 DB_CATEGORIES_TABLENAME = "categories"
 
-INIT_DB = True
+FETCH_CATEGORIES = False
+INIT_DB = False
 SQLITE_DB_NAME = "dummy-api.db"
 
 POSTGRES_DB = ""
